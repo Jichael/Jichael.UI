@@ -13,7 +13,7 @@ namespace Silicom.UI
         [ShowIf("useHeaders"), SerializeField] private GameObject[] headersSelected;
         [ShowIf("useHeaders"), SerializeField] private GameObject[] headersUnselected;
 
-        private int _currentIndex;
+        private int _currentIndex = -1;
 
         private void Awake()
         {
