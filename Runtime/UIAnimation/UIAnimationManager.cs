@@ -108,7 +108,7 @@ public class UIAnimationManager : MonoBehaviour
 
         while (delta < 1)
         {
-            delta += Time.deltaTime / animationEffect.translationDuration;
+            delta += (animationEffect.useUnscaledTime ? Time.unscaledDeltaTime : Time.deltaTime) / animationEffect.translationDuration;
             controller.rectTransform.localPosition = Vector3.Lerp(startPos, endPos, animationEffect.translationCurve.Evaluate(delta));
             yield return Yielders.EndOfFrame;
         }
@@ -126,7 +126,7 @@ public class UIAnimationManager : MonoBehaviour
 
         while (delta < 1)
         {
-            delta += Time.deltaTime / animationEffect.rotationDuration;
+            delta += (animationEffect.useUnscaledTime ? Time.unscaledDeltaTime : Time.deltaTime) / animationEffect.rotationDuration;
             rotation.z = animationEffect.rotationCurve.Evaluate(delta) * animationEffect.rotationMaxAngle;
             controller.rectTransform.localEulerAngles = rotation;
             yield return Yielders.EndOfFrame;
@@ -145,7 +145,7 @@ public class UIAnimationManager : MonoBehaviour
 
         while (delta < 1)
         {
-            delta += Time.deltaTime / animationEffect.scalingDuration;
+            delta += (animationEffect.useUnscaledTime ? Time.unscaledDeltaTime : Time.deltaTime) / animationEffect.scalingDuration;
             float tmp = animationEffect.scalingCurve.Evaluate(delta) * animationEffect.scalingMultiplier;
             scale.x = tmp;
             scale.y = tmp;
@@ -164,7 +164,7 @@ public class UIAnimationManager : MonoBehaviour
 
         while (delta < 1)
         {
-            delta += Time.deltaTime / animationEffect.fadeDuration;
+            delta += (animationEffect.useUnscaledTime ? Time.unscaledDeltaTime : Time.deltaTime) / animationEffect.fadeDuration;
             float tmp = animationEffect.fadeCurve.Evaluate(delta);
             controller.canvasGroup.alpha = tmp;
             yield return Yielders.EndOfFrame;

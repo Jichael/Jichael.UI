@@ -14,6 +14,9 @@ public class UIGuideTextTemplate : MonoBehaviour
     [SerializeField] private Color colorDone;
     [SerializeField] private Color colorToDo;
     
+    [SerializeField] private AudioClip toDoAudio;
+    [SerializeField] private AudioClip doneAudio;
+    
     public UIGuideTextTemplate CreateUI(GuideText guideText)
     {
         text.text = LanguageManager.Instance.RequestValue(guideText.textKey);
@@ -25,6 +28,7 @@ public class UIGuideTextTemplate : MonoBehaviour
         icon.sprite = iconDone;
         icon.color = colorDone;
         text.color = colorDone;
+        AudioManager.Instance.PlayUIClip(doneAudio);
     }
 
     public void SetToDo()
@@ -32,5 +36,6 @@ public class UIGuideTextTemplate : MonoBehaviour
         icon.sprite = iconToDo;
         icon.color = colorToDo;
         text.color = colorToDo;
+        AudioManager.Instance.PlayUIClip(toDoAudio);
     }
 }

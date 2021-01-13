@@ -7,6 +7,8 @@ public class UIAnimationEffect
 {
     public bool NeedsRectTransform => translation || rotation || scaling;
     public bool NeedsCanvasGroup => fade;
+
+    public bool useUnscaledTime;
     
     [BoxGroup("Translation")] public bool translation;
     [BoxGroup("Translation"), ShowIf(nameof(translation))] public AnimationCurve translationCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);

@@ -5,25 +5,18 @@ using UnityEngine;
 
 public class UIFeedbackBox : MonoBehaviour
 {
-    [SerializeField] private TMP_Text titleText;
     [SerializeField] private TMP_Text feedbackText;
+    [SerializeField] private UIAnimationController _type;
+    
 
-    public void SetFeedback(Feedback feedback)
+    public void SetFeedback(string feedbackKey)
     {
-        titleText.text = LanguageManager.Instance.RequestValue(feedback.titleKey);
-        feedbackText.text = LanguageManager.Instance.RequestValue(feedback.feedbackKey);
+        feedbackText.text = LanguageManager.Instance.RequestValue(feedbackKey);
         gameObject.SetActive(true);
     }
 
     public void HideFeedBackBox()
     {
         gameObject.SetActive(false);
-    }
-
-    [Serializable]
-    public class Feedback
-    {
-        public string titleKey;
-        public string feedbackKey;
     }
 }

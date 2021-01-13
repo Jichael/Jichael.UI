@@ -7,7 +7,7 @@ public class UIGuideTextHolder : MonoBehaviour
 
     public void CreateUI()
     {
-        _ui = UIGeneration.Instance.CreateStateUI(guideText);
+        _ui = UIGeneration.Instance.CreateUI(guideText);
         _ui.SetToDo();
     }
 

@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using CustomPackages.Silicom.Localization.Runtime;
-using Jichaels.StateMachine;
+using CustomPackages.Silicom.Player.CursorSystem;
+using CustomPackages.Silicom.Player.Players;
+using Silicom.StateMachine;
 using TMPro;
 using UnityEngine;
 
@@ -10,6 +12,8 @@ public class UIGuideQuestion : MonoBehaviour
     [SerializeField] private UIGuideAnswerTemplate answerTemplate;
     [SerializeField] private TMP_Text questionTitle;
     [SerializeField] private TMP_Text questionText;
+    [SerializeField] private AudioClip toDoAudio;
+    
     
     private readonly List<UIGuideAnswerTemplate> _answers = new List<UIGuideAnswerTemplate>();
 
@@ -21,10 +25,17 @@ public class UIGuideQuestion : MonoBehaviour
         {
             UIGuideAnswerTemplate answer = Instantiate(answerTemplate, answersContainer);
             answer.CreateUI(question.answers[i]);
-            state.transitions[i].GetComponent<TCClickedUI>().clickableUI = answer.clickableUI;
             _answers.Add(answer);
         }
+
         return this;
+    }
+
+    public bool CheckAnswer(int answerIndex)
+    {
+        bool clicked = _answers[answerIndex].clickableUI.clicked;
+        _answers[answerIndex].clickableUI.clicked = false;
+        return clicked;
     }
     
     public void SetDone()
@@ -40,5 +51,6 @@ public class UIGuideQuestion : MonoBehaviour
     public void SetToDo()
     {
         gameObject.SetActive(true);
+        AudioManager.Instance.PlayUIClip(toDoAudio);
     }
 }

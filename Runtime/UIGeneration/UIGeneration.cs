@@ -1,4 +1,4 @@
-﻿using Jichaels.StateMachine;
+﻿using Silicom.StateMachine;
 using UnityEngine;
 
 public class UIGeneration : MonoBehaviour
@@ -15,7 +15,7 @@ public class UIGeneration : MonoBehaviour
         Instance = this;
     }
 
-    public UIGuideTextTemplate CreateStateUI(GuideText state)
+    public UIGuideTextTemplate CreateUI(GuideText state)
     {
         UIGuideTextTemplate guideText = Instantiate(guideTextTemplate, actionListContainer);
         guideText.CreateUI(state).SetToDo();
