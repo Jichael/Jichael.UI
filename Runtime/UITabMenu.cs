@@ -7,17 +7,18 @@ namespace Silicom.UI
     {
 
         [SerializeField] private GameObject[] tabs;
-        [SerializeField] private int defaultTab;
+        [SerializeField] private bool useDefaultTab;
+        [ShowIf(nameof(useDefaultTab)), SerializeField] private int defaultTab;
         [SerializeField] private bool loop;
         [SerializeField] private bool useHeaders;
-        [ShowIf("useHeaders"), SerializeField] private GameObject[] headersSelected;
-        [ShowIf("useHeaders"), SerializeField] private GameObject[] headersUnselected;
+        [ShowIf(nameof(useHeaders)), SerializeField] private GameObject[] headersSelected;
+        [ShowIf(nameof(useHeaders)), SerializeField] private GameObject[] headersUnselected;
 
         private int _currentIndex = -1;
 
         private void Awake()
         {
-            SetTab(defaultTab);
+            if(useDefaultTab) SetTab(defaultTab);
         }
 
         public void NextTab()

@@ -7,15 +7,19 @@ public class UIGuideTextTemplate : MonoBehaviour
 {
     [SerializeField] private TMP_Text text;
     [SerializeField] private Image icon;
-    
-    [SerializeField] private Sprite iconDone;
-    [SerializeField] private Sprite iconToDo;
 
     [SerializeField] private Color colorDone;
     [SerializeField] private Color colorToDo;
     
     [SerializeField] private AudioClip toDoAudio;
     [SerializeField] private AudioClip doneAudio;
+
+    [SerializeField] private float toDoTextSize;
+    [SerializeField] private float doneTextSize;
+    
+
+    [SerializeField] private UIAnimationController iconController;
+    
     
     public UIGuideTextTemplate CreateUI(GuideText guideText)
     {
@@ -25,17 +29,18 @@ public class UIGuideTextTemplate : MonoBehaviour
 
     public void SetDone()
     {
-        icon.sprite = iconDone;
         icon.color = colorDone;
         text.color = colorDone;
+        text.fontSize = doneTextSize;
+        iconController.PlayAnimation(1);
         AudioManager.Instance.PlayUIClip(doneAudio);
     }
 
     public void SetToDo()
     {
-        icon.sprite = iconToDo;
         icon.color = colorToDo;
         text.color = colorToDo;
+        text.fontSize = toDoTextSize;
         AudioManager.Instance.PlayUIClip(toDoAudio);
     }
 }
