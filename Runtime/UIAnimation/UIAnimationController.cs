@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using CustomPackages.Silicom.Core.Runtime;
-using Sirenix.OdinInspector;
+﻿using Sirenix.OdinInspector;
 using UnityEditor;
 using UnityEngine;
 
@@ -13,36 +11,12 @@ public class UIAnimationController : MonoBehaviour
     
     public Vector2 LayoutPosition { get; private set; }
 
-    [SerializeField] private AnimateOn animateOn = AnimateOn.Start;
-    private enum AnimateOn
-    {
-        None,
-        Start,
-        Enable
-    }
-
     public bool AnimationPlaying => IsTranslating || IsRotating || IsScaling || IsFading;
     public bool IsTranslating { get; set; }
     public bool IsRotating { get; set; }
     public bool IsScaling { get; set; }
     public bool IsFading { get; set; }
-
-    private void Start()
-    {
-        if (animateOn == AnimateOn.Start) StartCoroutine(AnimateOnCo());
-    }
-
-    private void OnEnable()
-    {
-        if (animateOn == AnimateOn.Enable) StartCoroutine(AnimateOnCo());
-    }
-
-    private IEnumerator AnimateOnCo()
-    {
-        yield return Yielders.EndOfFrame;
-        PlayAnimation(0);
-    }
-
+    
     public void CacheLayoutPosition()
     {
         LayoutPosition = rectTransform.localPosition;
@@ -82,10 +56,18 @@ public class UIAnimationController : MonoBehaviour
     {
         if (!preset) return;
         
+        animationEffects[indexLoadPreview].useUnscaledTime = preset.animationEffect.useUnscaledTime;
+        animationEffects[indexLoadPreview].enableBefore = preset.animationEffect.enableBefore;
+        animationEffects[indexLoadPreview].disableAfter = preset.animationEffect.disableAfter;
+        
+        animationEffects[indexLoadPreview].setPosition = preset.animationEffect.setPosition;
+        animationEffects[indexLoadPreview].position = preset.animationEffect.position;
+        
         animationEffects[indexLoadPreview].translation = preset.animationEffect.translation;
         animationEffects[indexLoadPreview].translationCurve = preset.animationEffect.translationCurve;
         animationEffects[indexLoadPreview].translationDuration = preset.animationEffect.translationDuration;
         animationEffects[indexLoadPreview].translationOffset = preset.animationEffect.translationOffset;
+        animationEffects[indexLoadPreview].layoutControlled = preset.animationEffect.layoutControlled;
         
         animationEffects[indexLoadPreview].rotation = preset.animationEffect.rotation;
         animationEffects[indexLoadPreview].rotationCurve = preset.animationEffect.rotationCurve;

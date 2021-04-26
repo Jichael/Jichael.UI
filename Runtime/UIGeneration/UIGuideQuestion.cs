@@ -1,7 +1,5 @@
 using System.Collections.Generic;
 using CustomPackages.Silicom.Localization.Runtime;
-using CustomPackages.Silicom.Player.CursorSystem;
-using CustomPackages.Silicom.Player.Players;
 using Silicom.StateMachine;
 using TMPro;
 using UnityEngine;

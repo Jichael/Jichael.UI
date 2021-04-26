@@ -7,8 +7,17 @@ public class UINotificationArea : MonoBehaviour
 
     public void SendNotification(NotificationSO notification)
     {
-        UINotification notif= Instantiate(notificationTemplate, parent);
+        UINotification notif = Instantiate(notificationTemplate, parent);
         notif.SetNotification(notification);
+        notif.PlayAnimation();
+    }
+    
+    public void SendNotification(NotificationSO notification, string textOverride)
+    {
+        UINotification notif = Instantiate(notificationTemplate, parent);
+        notif.SetNotification(notification);
+        notif.OverrideText(textOverride);
+        notif.PlayAnimation();
     }
 
 }

@@ -1,5 +1,4 @@
-﻿using System;
-using CustomPackages.Silicom.Localization.Runtime;
+﻿using CustomPackages.Silicom.Localization.Runtime;
 using TMPro;
 using UnityEngine;
 

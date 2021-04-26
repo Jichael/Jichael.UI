@@ -49,6 +49,14 @@ namespace Silicom.UI
             SetVisibility();
         }
 
+        public void CloseCurrentTab()
+        {
+            tabs[_currentIndex].SetActive(false);
+            if(!useHeaders) return;
+            headersSelected[_currentIndex].SetActive(false);
+            headersUnselected[_currentIndex].SetActive(true);
+        }
+
         private void SetVisibility()
         {
             for (int i = 0; i < tabs.Length; i++)

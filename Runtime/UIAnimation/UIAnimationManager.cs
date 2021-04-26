@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using CustomPackages.Silicom.Core.Runtime;
+#if UNITY_EDITOR
 using Unity.EditorCoroutines.Editor;
 using UnityEditor;
+#endif
 using UnityEngine;
 
 public class UIAnimationManager : MonoBehaviour
@@ -11,7 +13,14 @@ public class UIAnimationManager : MonoBehaviour
 
     private void Awake()
     {
-        Instance = this;
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
     public void PlayAnimation(UIAnimationController controller, UIAnimationEffect animationEffect)
@@ -29,11 +38,24 @@ public class UIAnimationManager : MonoBehaviour
             Debug.LogError($"{controller.name} needs a CanvasGroup but doesn't have one !");
             return;
         }
+
+        StartCoroutine(AnimationCo(controller, animationEffect));
+    }
+
+    private IEnumerator AnimationCo(UIAnimationController controller, UIAnimationEffect animationEffect)
+    {
+        if (animationEffect.setPosition)
+        {
+            controller.rectTransform.anchoredPosition = animationEffect.position;
+        }
+        
+        if (animationEffect.enableBefore)
+        {
+            controller.gameObject.SetActive(true);
+        }
         
         if (animationEffect.translation)
         {
-            // TODO : should we do this here or only when needed ?
-            controller.CacheLayoutPosition();
 #if UNITY_EDITOR
             if (EditorApplication.isPlaying)
             {
@@ -95,14 +117,32 @@ public class UIAnimationManager : MonoBehaviour
             StartCoroutine(FadeCo(controller, animationEffect));
 #endif
         }
+
+        if (animationEffect.disableAfter)
+        {
+            while (controller.AnimationPlaying) yield return Yielders.EndOfFrame;
+            controller.gameObject.SetActive(false);
+        }
     }
   
     private static IEnumerator TranslationCo(UIAnimationController controller, UIAnimationEffect animationEffect)
     {
+        while (controller.IsTranslating) yield return Yielders.EndOfFrame;
         controller.IsTranslating = true;
 
-        Vector2 startPos = controller.LayoutPosition + animationEffect.translationOffset;
-        Vector2 endPos = controller.LayoutPosition;
+        Vector2 startPos;
+        Vector2 endPos;
+        if (animationEffect.layoutControlled)
+        {
+            controller.CacheLayoutPosition();
+            startPos = controller.LayoutPosition + animationEffect.translationOffset;
+            endPos = controller.LayoutPosition;
+        }
+        else
+        {
+            startPos = controller.rectTransform.localPosition;
+            endPos = startPos + animationEffect.translationOffset;
+        }
 
         float delta = 0;
 
@@ -118,6 +158,7 @@ public class UIAnimationManager : MonoBehaviour
     
     private static IEnumerator RotationCo(UIAnimationController controller, UIAnimationEffect animationEffect)
     {
+        while (controller.IsRotating) yield return Yielders.EndOfFrame;
         controller.IsRotating = true;
         
         Vector3 rotation = controller.rectTransform.localEulerAngles;
@@ -137,6 +178,7 @@ public class UIAnimationManager : MonoBehaviour
     
     private static IEnumerator ScalingCo(UIAnimationController controller, UIAnimationEffect animationEffect)
     {
+        while (controller.IsScaling) yield return Yielders.EndOfFrame;
         controller.IsScaling = true;
 
         Vector3 scale = controller.rectTransform.localScale;
@@ -158,6 +200,7 @@ public class UIAnimationManager : MonoBehaviour
     
     private static IEnumerator FadeCo(UIAnimationController controller, UIAnimationEffect animationEffect)
     {
+        while (controller.IsFading) yield return Yielders.EndOfFrame;
         controller.IsFading = true;
         
         float delta = 0;
@@ -169,7 +212,7 @@ public class UIAnimationManager : MonoBehaviour
             controller.canvasGroup.alpha = tmp;
             yield return Yielders.EndOfFrame;
         }
-        
+
         controller.IsFading = false;
     }
 }

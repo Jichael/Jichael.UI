@@ -13,6 +13,11 @@ MonoBehaviour:
   m_Name: TranslationRightToLeft
   m_EditorClassIdentifier: 
   animationEffect:
+    useUnscaledTime: 0
+    enableBefore: 0
+    disableAfter: 0
+    setPosition: 0
+    position: {x: 0, y: 0}
     translation: 1
     translationCurve:
       serializedVersion: 2
@@ -40,6 +45,7 @@ MonoBehaviour:
       m_RotationOrder: 4
     translationDuration: 1
     translationOffset: {x: 400, y: 200}
+    layoutControlled: 0
     rotation: 0
     rotationCurve:
       serializedVersion: 2

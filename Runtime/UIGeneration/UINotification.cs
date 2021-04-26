@@ -11,15 +11,27 @@ public class UINotification : MonoBehaviour
     [SerializeField] private TMP_Text notificationText;
     [SerializeField] private Image image;
 
+    private NotificationSO _notification;
+
     public void SetNotification(NotificationSO notificationSo)
     {
-        image.color = notificationSo.color;
-        notificationText.text = LanguageManager.Instance.RequestValue(notificationSo.textKey);
-        animationController.PlayAnimation(0);
-        AudioManager.Instance.PlayUIClip(notificationSo.audioClip);
-        StartCoroutine(RemoveCo(notificationSo.timeToLive));
+        _notification = notificationSo;
+        image.color = _notification.color;
+        notificationText.text = LanguageManager.Instance.RequestValue(_notification.textKey);
     }
 
+    public void OverrideText(string text)
+    {
+        notificationText.text = text;
+    }
+
+    public void PlayAnimation()
+    {
+        animationController.PlayAnimation(0);
+        AudioManager.Instance.PlayUIClip(_notification.audioClip);
+        StartCoroutine(RemoveCo(_notification.timeToLive));
+    }
+    
     private IEnumerator RemoveCo(float timeToLive)
     {
         yield return new WaitForSeconds(timeToLive);

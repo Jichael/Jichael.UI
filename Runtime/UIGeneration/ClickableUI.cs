@@ -1,14 +1,11 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
-public class ClickableUI : MonoBehaviour, IPointerDownHandler
+public class ClickableUI : MonoBehaviour, IPointerClickHandler
 {
-    [SerializeField] private Button button;
-    
     [HideInInspector] public bool clicked;
 
-    public void OnPointerDown(PointerEventData eventData)
+    public void OnPointerClick(PointerEventData eventData)
     {
         clicked = true;
     }

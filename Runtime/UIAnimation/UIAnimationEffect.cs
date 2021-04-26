@@ -7,13 +7,20 @@ public class UIAnimationEffect
 {
     public bool NeedsRectTransform => translation || rotation || scaling;
     public bool NeedsCanvasGroup => fade;
-
+    
     public bool useUnscaledTime;
     
+    public bool enableBefore;
+    public bool disableAfter;
+
+    public bool setPosition;
+    [ShowIf(nameof(setPosition))] public Vector2 position;
+
     [BoxGroup("Translation")] public bool translation;
     [BoxGroup("Translation"), ShowIf(nameof(translation))] public AnimationCurve translationCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
     [BoxGroup("Translation"), ShowIf(nameof(translation))] public float translationDuration;
     [BoxGroup("Translation"), ShowIf(nameof(translation))] public Vector2 translationOffset;
+    [BoxGroup("Translation"), ShowIf(nameof(translation))] public bool layoutControlled;
     
     [BoxGroup("Rotation")] public bool rotation;
     [BoxGroup("Rotation"), ShowIf(nameof(rotation))] public AnimationCurve rotationCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
